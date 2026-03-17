@@ -48,6 +48,118 @@ This API showcases backend security concepts that are commonly used in real-worl
 - Rotate refresh tokens securely
 - Revoke refresh tokens on logout
 - Protect API routes with JWT middleware
+- Serve static files and HTML 404 pages for web clients
+
+## Installation
+
+### Prerequisites
+
+- Node.js v16+
+- MongoDB Atlas account or local MongoDB instance
+
+### Steps
+
+1. Clone the repository:
+
+   ```bash
+   git clone <repository-url>
+   cd node-authentication-api
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Set up environment variables:
+   - Copy `.env.example` to `.env`
+   - Fill in your actual values (MongoDB URI, JWT secrets, etc.)
+
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+The server will run on `http://localhost:3500` (or the port specified in `.env`).
+
+## Environment Variables
+
+Create a `.env` file based on `.env.example`:
+
+- `PORT`: Server port (default: 3500)
+- `DATABASE_URI`: MongoDB connection string
+- `NODE_ENV`: Environment (development/production)
+- `ACCESS_TOKEN_SECRET`: Secret for JWT access tokens (min 32 characters)
+- `REFRESH_TOKEN_SECRET`: Secret for JWT refresh tokens (min 32 characters)
+- `ALLOWED_ORIGINS`: Comma-separated list of allowed CORS origins
+
+## API Endpoints
+
+### Public Routes
+
+- `POST /register` - Register a new user
+  - Body: `{ "user": "username", "password": "password" }`
+- `POST /auth` - Login
+  - Body: `{ "user": "username", "password": "password" }`
+- `GET /refresh` - Refresh access token
+- `POST /logout` - Logout (clears refresh token cookie)
+
+### Protected Routes (Require JWT)
+
+- `GET /api/users` - Get all users (Admin only)
+- `GET /api/employees` - Get all employees
+- `POST /api/employees` - Create employee (Admin/Editor)
+- `PUT /api/employees/:id` - Update employee (Admin/Editor)
+- `DELETE /api/employees/:id` - Delete employee (Admin only)
+
+## Usage Examples
+
+### Register a User
+
+```bash
+curl -X POST http://localhost:3500/register \
+  -H "Content-Type: application/json" \
+  -d '{"user": "newuser", "password": "SecurePass@123"}'
+```
+
+### Login
+
+```bash
+curl -X POST http://localhost:3500/auth \
+  -H "Content-Type: application/json" \
+  -d '{"user": "newuser", "password": "SecurePass@123"}'
+```
+
+### Access Protected Route
+
+```bash
+curl -H "Authorization: Bearer <access_token>" \
+  http://localhost:3500/api/employees
+```
+
+## Security Features
+
+- Password hashing with bcrypt
+- JWT tokens with short expiration
+- Refresh token rotation
+- HttpOnly cookies for refresh tokens
+- CORS protection
+- Role-based access control
+- Input validation (recommended to add express-validator)
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Run tests (if available)
+5. Submit a pull request
+
+## License
+
+This project is licensed under the MIT License.
+
 - Restrict routes by role
 - Manage users and employees through protected endpoints
 
