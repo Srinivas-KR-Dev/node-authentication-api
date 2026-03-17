@@ -18,15 +18,27 @@ It includes:
 - MongoDB persistence with Mongoose
 - centralized logging and error handling
 
-## Highlights
+## Architecture
 
-This API showcases backend security concepts that are commonly used in real-world Node.js applications:
+```
+Client
+  ↓ (HTTP Requests)
+Express Routes
+  ↓ (Route Handling)
+Controllers
+  ↓ (Business Logic)
+Services / Logic
+  ↓ (Data Processing)
+MongoDB (Mongoose)
+```
 
-- short-lived access tokens
-- rotating refresh tokens
-- cookie-based session continuation
-- protected routes with JWT verification
-- role-based access control for admin/editor/user permissions
+The application follows a layered architecture:
+
+- **Client**: Frontend applications making HTTP requests
+- **Express Routes**: Define API endpoints and route requests to controllers
+- **Controllers**: Handle request/response logic and validation
+- **Services/Logic**: Core business logic and data processing
+- **MongoDB (Mongoose)**: Database layer with ODM for data persistence
 
 ## Tech Stack
 
@@ -39,6 +51,16 @@ This API showcases backend security concepts that are commonly used in real-worl
 - cookie-parser
 - cors
 - dotenv
+
+## Highlights
+
+This API showcases backend security concepts that are commonly used in real-world Node.js applications:
+
+- short-lived access tokens
+- rotating refresh tokens
+- cookie-based session continuation
+- protected routes with JWT verification
+- role-based access control for admin/editor/user permissions
 
 ## Features
 
@@ -94,17 +116,6 @@ Create a `.env` file based on `.env.example`:
 - `REFRESH_TOKEN_SECRET`: Secret for JWT refresh tokens (min 32 characters)
 - `ALLOWED_ORIGINS`: Comma-separated list of allowed CORS origins
 
-## API Endpoints
-
-### Public Routes
-
-- `POST /register` - Register a new user
-  - Body: `{ "user": "username", "password": "password" }`
-- `POST /auth` - Login
-  - Body: `{ "user": "username", "password": "password" }`
-- `GET /refresh` - Refresh access token
-- `POST /logout` - Logout (clears refresh token cookie)
-
 ### Protected Routes (Require JWT)
 
 - `GET /api/users` - Get all users (Admin only)
@@ -158,10 +169,7 @@ curl -H "Authorization: Bearer <access_token>" \
 
 ## License
 
-This project is licensed under the MIT License.
-
-- Restrict routes by role
-- Manage users and employees through protected endpoints
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## API Endpoints
 
@@ -224,14 +232,18 @@ curl -X POST http://localhost:3500/auth \
 ## Folder Structure
 
 ```text
-config/
-controllers/
-middleware/
-models/
-routes/
-public/
-views/
-server.js
+node-authentication-api
+│
+├ config/
+├ controllers/
+├ middleware/
+├ models/
+├ routes/
+├ public/
+├ views/
+├ server.js
+├ package.json
+└ README.md
 ```
 
 ## Notes
