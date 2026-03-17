@@ -14,15 +14,15 @@ const handleLogin = async (req, res, next) => {
         const username = user.trim().toLowerCase();
 
         const foundUser = await User.findOne({ username: username }).exec();
-        if (!foundUser) return res.sendStatus(401);//Unauthorized
+        if (!foundUser) return res.sendStatus(401); // Unauthorized
 
-        //Evaluate password
+        // Evaluate password.
         const match = await bcrypt.compare(password, foundUser.password);
 
         if (!match) return res.sendStatus(401);
 
         const roles = Object.values(foundUser.roles);
-        //Create JWTs
+        // Create JWTs.
         const accessToken = jwt.sign(
             {
                 UserInfo: {
@@ -49,20 +49,20 @@ const handleLogin = async (req, res, next) => {
             const refreshToken = cookies.jwt;
             const foundToken = await User.findOne({ refreshToken }).exec();
 
-            //Detected refresh token reuse!
+            // Detected refresh token reuse.
             if (!foundToken) {
-                //clear out ALL previous refresh tokens
+                // Clear out all previous refresh tokens.
                 newRefreshTokenArray = [];
             }
 
             res.clearCookie('jwt', refreshCookieClearOptions);
         }
 
-        //Saving refresh token with current user
+        // Save refresh token with current user.
         foundUser.refreshToken = [...newRefreshTokenArray, newRefreshToken];
         await foundUser.save();
 
-        //Create secure cookie with refresh token
+        // Create refresh-token cookie.
         res.cookie('jwt', newRefreshToken, refreshCookieOptions);
 
         res.status(200).json({ accessToken });
@@ -70,8 +70,7 @@ const handleLogin = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
+};
 
-}
-
-export default { handleLogin }
+export default { handleLogin };
 

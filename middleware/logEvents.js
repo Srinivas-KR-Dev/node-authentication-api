@@ -9,7 +9,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const logEvents = async (message, logName) => {
-
     const dateTime = dayjs().format('MMMM D YYYY HH:mm:ss');
     const logItem = `${dateTime}\t${randomUUID()}\t${message}\n`;
     try {
@@ -18,21 +17,13 @@ const logEvents = async (message, logName) => {
     } catch (error) {
         console.error(error);
     }
-}
+};
+
 const logger = async (req, res, next) => {
-    const message = `${req.method}\t${req.headers.origin}\t${req.path}`
+    const message = `${req.method}\t${req.headers.origin}\t${req.path}`;
     logEvents(message, 'requestLog.txt');
     next();
-}
+};
 
 export { logEvents, logger };
-
-
-
-
-
-
-
-
-
 

@@ -30,32 +30,32 @@ const __dirname = dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3500;
 
-//Connect to MongoDB
+// Connect to MongoDB.
 connectDB();
 
-//Custom middleware logger
+// Custom middleware logger.
 app.use(logger);
 
-//Handle options credentials check - before CORS!
-//and fetch cookies credentials requirement
+// Handle options credentials check before CORS
+// and fetch cookies credentials requirement.
 app.use(credentials);
 
-//Cross-Origin Resource Sharing
+// Cross-Origin Resource Sharing.
 app.use(cors(corsOptions));
 
-//built in middleware to handle urlencoded form data
+// Built-in middleware to handle urlencoded form data.
 app.use(express.urlencoded({ extended: false }));
 
-//built in middleware for json
+// Built-in middleware for JSON.
 app.use(express.json());
 
-//middleware for cookies
+// Middleware for cookies.
 app.use(cookieParser());
 
-//serve static files
+// Serve static files.
 app.use(express.static(path.join(__dirname, '/public')));
 
-//routes
+// Routes.
 app.use('/', root);
 app.use('/register', registerRoute);
 app.use('/auth', authRoute);
@@ -65,8 +65,6 @@ app.use('/logout', logoutRoute);
 app.use(verifyJWT);
 app.use('/api/users', usersRoutes);
 app.use('/api/employees', employeesRoutes);
-
-
 
 app.all(/.*/, (req, res) => {
     res.status(404);
@@ -80,7 +78,7 @@ app.all(/.*/, (req, res) => {
     }
 });
 
-//custom error handling
+// Custom error handling.
 app.use(errorHandler);
 
 mongoose.connection.once('open', () => {
@@ -88,5 +86,4 @@ mongoose.connection.once('open', () => {
     app.listen(PORT, () => {
         console.log(`Server running on port ${PORT}`);
     });
-
 });

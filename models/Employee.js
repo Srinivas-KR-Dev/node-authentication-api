@@ -14,7 +14,6 @@ const employeeSchema = new Schema({
         trim: true,
         set: v => v.charAt(0).toUpperCase() + v.slice(1).toLowerCase()
     }
-
 });
 
 export default mongoose.model('Employee', employeeSchema);

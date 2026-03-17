@@ -16,15 +16,15 @@ const handleNewUser = async (req, res, next) => {
 
         const username = user.trim().toLowerCase();
 
-        //check for duplicate usernames in the db.
+        // Check for duplicate usernames in the database.
         const duplicate = await User.findOne({ username: username }).exec();
         if (duplicate) return res.status(409).json({
             message: 'Username already exists'
-        }); //Conflict
+        }); // Conflict
 
-        //encrypt the password
+        // Encrypt the password before storing it.
         const hashedPassword = await bcrypt.hash(password, 10);
-        //store the new user in DB
+        // Store the new user in the database.
         await User.create({
             username: username,
             password: hashedPassword
@@ -32,9 +32,8 @@ const handleNewUser = async (req, res, next) => {
 
         res.status(201).json({ message: `New user ${username} created!` });
     } catch (error) {
-        next(error);//send error to global handler
+        next(error); // Send error to global handler.
     }
+};
 
-}
-
-export default { handleNewUser }
+export default { handleNewUser };

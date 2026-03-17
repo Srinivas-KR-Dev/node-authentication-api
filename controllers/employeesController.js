@@ -6,21 +6,18 @@ const getAllEmployees = async (req, res, next) => {
         const employees = await Employee.find().lean();
 
         res.status(200).json(employees);
-
     } catch (error) {
         next(error);
     }
 };
 
-
 const createNewEmployee = async (req, res, next) => {
     try {
-
         if (!req.body?.firstname || !req.body?.lastname) {
             return res.status(400).json({ message: 'First and last names are required' });
         }
 
-        const { firstname, lastname } = req.body
+        const { firstname, lastname } = req.body;
 
         const employee = await Employee.create({
             firstname,
@@ -32,7 +29,6 @@ const createNewEmployee = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-
 };
 
 const updateEmployee = async (req, res, next) => {
@@ -40,7 +36,7 @@ const updateEmployee = async (req, res, next) => {
         const id = req.params.id;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(400).json({ message: "Invalid ID" });
+            return res.status(400).json({ message: 'Invalid ID' });
         }
 
         const employee = await Employee.findById(id);
@@ -58,19 +54,19 @@ const updateEmployee = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-}
+};
 
 const deleteEmployee = async (req, res, next) => {
     try {
         const id = req.params.id;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(400).json({ message: "Invalid ID" });
+            return res.status(400).json({ message: 'Invalid ID' });
         }
 
-        const deltedEmployee = await Employee.findByIdAndDelete(id);
+        const deletedEmployee = await Employee.findByIdAndDelete(id);
 
-        if (!deltedEmployee) {
+        if (!deletedEmployee) {
             return res.status(404).json({ message: `Employee ID ${id} not found` });
         }
 
@@ -79,7 +75,7 @@ const deleteEmployee = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-}
+};
 
 const getEmployee = async (req, res, next) => {
     try {
@@ -96,12 +92,10 @@ const getEmployee = async (req, res, next) => {
         }
 
         res.status(200).json(employee);
-
     } catch (error) {
         next(error);
     }
-
-}
+};
 
 export default {
     getAllEmployees,
@@ -109,4 +103,4 @@ export default {
     updateEmployee,
     deleteEmployee,
     getEmployee
-}
+};

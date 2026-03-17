@@ -14,4 +14,3 @@ router.get(['/', '/index', '/index.html'], (req, res) => {
 
 export default router;
 
-
