@@ -126,6 +126,7 @@ server.js
 
 - The login and registration payload uses `user` as the username field.
 - Usernames are normalized to lowercase before storage.
+- Passwords must be at least 8 characters and include uppercase, lowercase, number, and special character.
 - Passwords are hashed before saving to the database.
 - Access tokens are used for protected routes.
 - Refresh tokens are stored in the database and rotated on refresh.
@@ -133,7 +134,6 @@ server.js
 ## Future Improvements
 
 - Add automated tests
-- Add password strength validation
 - Add rate limiting
 - Add account verification and password reset flows
 - Improve production cookie security configuration
