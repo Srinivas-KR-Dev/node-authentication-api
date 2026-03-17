@@ -22,6 +22,7 @@ const handleRefreshToken = async (req, res, next) => {
                 async (err, decoded) => {
                     if (err) return res.sendStatus(403);//Forbidden
                     const hackedUser = await User.findOne({ username: decoded.username }).exec();
+                    if (!hackedUser) return;
                     hackedUser.refreshToken = [];
                     await hackedUser.save();
                 }
