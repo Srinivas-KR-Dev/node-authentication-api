@@ -1,0 +1,13 @@
+January 21 2026 20:00:31	86ee9d39-5a51-4e6f-bd66-d3669b21bdfd	TypeError: Cannot destructure property 'user' of 'req.bod' as it is undefined.
+January 21 2026 20:08:20	659c16b3-14f4-45de-a5e8-d0f06ca33885	Error: secretOrPrivateKey must have a value
+January 23 2026 17:24:44	ffbe3620-c14c-4535-8dd5-a56a7ba4efda	TypeError: Cannot destructure property 'firstname' of 'req.body' as it is undefined.
+January 23 2026 17:26:13	185b5e73-142c-41aa-b05e-289331ef2b58	SyntaxError: Expected ',' or '}' after property value in JSON at position 34 (line 3 column 15)
+January 23 2026 17:27:57	dc6b9fcd-78d6-454d-9917-412096ec4e24	TypeError: Cannot destructure property 'firstname' of 'req.body' as it is undefined.
+January 23 2026 17:28:13	47b6788f-fc23-4264-a747-5e57e7f9882a	TypeError: Cannot read properties of undefined (reading 'firstname')
+January 23 2026 18:26:44	79be24f5-98e4-4ea5-9009-68a17a44b2b1	Error: data and hash arguments required
+January 23 2026 18:27:11	57806a84-a9f3-4e70-860b-b40b8a1bd280	Error: data and hash arguments required
+January 23 2026 18:27:42	8dd99fb5-21c1-419e-bd9b-98d01341bced	Error: data and hash arguments required
+January 27 2026 19:31:24	dde142ed-2b5c-4f76-b4e5-280f5f29476d	ValidationError: User validation failed: refreshToken: Cast to embedded failed for value "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNyaW5pNDU2IiwiaWF0IjoxNzY5NTIyNDg0LCJleHAiOjE3Njk2MDg4ODR9.Ze89ung8nOcyglFqfWMNwzlWTAA0QWWJGPCTMADjYU4" (type string) at path "refreshToken" because of "ObjectParameterError"
+January 27 2026 19:31:29	b7b5612f-1d57-4b62-97cd-b2144e4c2377	ValidationError: User validation failed: refreshToken: Cast to embedded failed for value "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNyaW5pNDU2IiwiaWF0IjoxNzY5NTIyNDg5LCJleHAiOjE3Njk2MDg4ODl9.1NUn6DB25CvG94KGNADE_HtEwyG6_Z8RZW8sPAkwZVQ" (type string) at path "refreshToken" because of "ObjectParameterError"
+January 27 2026 19:32:30	041e5e91-5869-4bb0-9faa-ebf317171399	ValidationError: User validation failed: refreshToken: Cast to embedded failed for value "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNyaW5pNDU2IiwiaWF0IjoxNzY5NTIyNTUwLCJleHAiOjE3Njk2MDg5NTB9.kjm8W7OJUk3jKxLBRm4-i_DGfOznH7NlPFix3XcBN_c" (type string) at path "refreshToken" because of "ObjectParameterError"
+January 28 2026 18:32:25	4963e508-8066-4576-9d54-11dcc5588ac1	ReferenceError: jw is not defined
