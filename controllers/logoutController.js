@@ -1,4 +1,5 @@
 import User from '../models/User.js';
+import { refreshCookieClearOptions } from '../config/refreshCookieOptions.js';
 
 const handleLogout = async (req, res, next) => {
     try {
@@ -12,7 +13,7 @@ const handleLogout = async (req, res, next) => {
         // is refreshToken in db
         const foundUser = await User.findOne({ refreshToken: refreshToken }).exec();
         if (!foundUser) {
-            res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
+            res.clearCookie('jwt', refreshCookieClearOptions);
             return res.sendStatus(204);
         }
 
@@ -20,7 +21,7 @@ const handleLogout = async (req, res, next) => {
         foundUser.refreshToken = foundUser.refreshToken.filter(rt => rt !== refreshToken);
         await foundUser.save();
 
-        res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
+        res.clearCookie('jwt', refreshCookieClearOptions);
         res.sendStatus(204);
 
     } catch (error) {

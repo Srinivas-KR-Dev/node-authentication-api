@@ -1,5 +1,6 @@
 import User from '../models/User.js';
 import jwt from 'jsonwebtoken';
+import { refreshCookieOptions, refreshCookieClearOptions } from '../config/refreshCookieOptions.js';
 
 const handleRefreshToken = async (req, res, next) => {
     try {
@@ -9,7 +10,7 @@ const handleRefreshToken = async (req, res, next) => {
 
         const refreshToken = cookies.jwt;
 
-        res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
+        res.clearCookie('jwt', refreshCookieClearOptions);
 
         const foundUser = await User.findOne({ refreshToken: refreshToken }).exec();
 
@@ -67,12 +68,7 @@ const handleRefreshToken = async (req, res, next) => {
                 await foundUser.save();
 
                 // Create secure cookie with refresh token
-                res.cookie('jwt', newRefreshToken, {
-                    httpOnly: true,
-                    sameSite: 'None',
-                    //secure: true,
-                    maxAge: 24 * 60 * 60 * 1000
-                });
+                res.cookie('jwt', newRefreshToken, refreshCookieOptions);
 
                 res.json({ accessToken });
             }

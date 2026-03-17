@@ -1,6 +1,7 @@
 import User from '../models/User.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { refreshCookieOptions, refreshCookieClearOptions } from '../config/refreshCookieOptions.js';
 
 const handleLogin = async (req, res, next) => {
     try {
@@ -54,7 +55,7 @@ const handleLogin = async (req, res, next) => {
                 newRefreshTokenArray = [];
             }
 
-            res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
+            res.clearCookie('jwt', refreshCookieClearOptions);
         }
 
         //Saving refresh token with current user
@@ -62,12 +63,7 @@ const handleLogin = async (req, res, next) => {
         await foundUser.save();
 
         //Create secure cookie with refresh token
-        res.cookie('jwt', newRefreshToken, {
-            httpOnly: true,
-            sameSite: 'None',
-            //secure: true,
-            maxAge: 24 * 60 * 60 * 1000
-        });
+        res.cookie('jwt', newRefreshToken, refreshCookieOptions);
 
         res.status(200).json({ accessToken });
 
