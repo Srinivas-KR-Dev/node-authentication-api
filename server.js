@@ -23,7 +23,7 @@ import errorHandler from './middleware/errorHandler.js';
 import verifyJWT from './middleware/verifyJWT.js';
 import credentials from './middleware/credentials.js';
 import connectDB from './config/dbConn.js';
-import seedEmployees from './config/seedEmployees.js';
+import seedEmployees from './scripts/seedEmployees.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
