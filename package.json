@@ -2,7 +2,7 @@
   "name": "node-authentication-api",
   "version": "1.0.0",
   "description": "Secure Node.js authentication API with JWT, refresh token rotation, and role-based authorization.",
-  "license": "ISC",
+  "license": "MIT",
   "author": "Srinivas KR",
   "type": "module",
   "main": "server.js",

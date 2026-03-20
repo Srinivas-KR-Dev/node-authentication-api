@@ -23,6 +23,7 @@ import errorHandler from './middleware/errorHandler.js';
 import verifyJWT from './middleware/verifyJWT.js';
 import credentials from './middleware/credentials.js';
 import connectDB from './config/dbConn.js';
+import seedEmployees from './config/seedEmployees.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -83,7 +84,13 @@ app.use(errorHandler);
 
 mongoose.connection.once('open', () => {
     console.log('Connected to MongoDB');
-    app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`);
-    });
+    seedEmployees()
+        .then(() => {
+            app.listen(PORT, () => {
+                console.log(`Server running on port ${PORT}`);
+            });
+        })
+        .catch((error) => {
+            console.error('Employee seed error:', error);
+        });
 });

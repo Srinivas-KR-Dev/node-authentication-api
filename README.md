@@ -6,39 +6,16 @@ This is an ongoing project, and the implementation may continue to evolve as I i
 
 ## Overview
 
-This project is a backend authentication system built to demonstrate practical auth and authorization patterns in a clean Express application.
+This project is a simple backend authentication system built to practice real-world auth concepts in Node.js and Express.
 
 It includes:
 
 - user registration with hashed passwords
 - login with JWT access tokens
 - refresh token rotation using `httpOnly` cookies
-- refresh token reuse detection
 - role-based authorization for protected routes
 - MongoDB persistence with Mongoose
-- centralized logging and error handling
-
-## Architecture
-
-```
-Client
-  ↓ (HTTP Requests)
-Express Routes
-  ↓ (Route Handling)
-Controllers
-  ↓ (Business Logic)
-Services / Logic
-  ↓ (Data Processing)
-MongoDB (Mongoose)
-```
-
-The application follows a layered architecture:
-
-- **Client**: Frontend applications making HTTP requests
-- **Express Routes**: Define API endpoints and route requests to controllers
-- **Controllers**: Handle request/response logic and validation
-- **Services/Logic**: Core business logic and data processing
-- **MongoDB (Mongoose)**: Database layer with ODM for data persistence
+- default employee seed data for quick testing
 
 ## Tech Stack
 
@@ -52,16 +29,6 @@ The application follows a layered architecture:
 - cors
 - dotenv
 
-## Highlights
-
-This API showcases backend security concepts that are commonly used in real-world Node.js applications:
-
-- short-lived access tokens
-- rotating refresh tokens
-- cookie-based session continuation
-- protected routes with JWT verification
-- role-based access control for admin/editor/user permissions
-
 ## Features
 
 - Register new users
@@ -70,127 +37,51 @@ This API showcases backend security concepts that are commonly used in real-worl
 - Rotate refresh tokens securely
 - Revoke refresh tokens on logout
 - Protect API routes with JWT middleware
-- Serve static files and HTML 404 pages for web clients
+- Restrict routes by role
+- Manage users and employees through protected endpoints
 
-## Installation
+## User Model
 
-### Prerequisites
+Each user includes:
 
-- Node.js v16+
-- MongoDB Atlas account or local MongoDB instance
+- `username`
+- `fullname`
+- `email`
+- `roles`
+- `password`
+- `refreshToken`
 
-### Steps
+## Employee Model
 
-1. Clone the repository:
+Each employee includes:
 
-   ```bash
-   git clone <repository-url>
-   cd node-authentication-api
-   ```
-
-2. Install dependencies:
-
-   ```bash
-   npm install
-   ```
-
-3. Set up environment variables:
-   - Copy `.env.example` to `.env`
-   - Fill in your actual values (MongoDB URI, JWT secrets, etc.)
-
-4. Start the development server:
-   ```bash
-   npm run dev
-   ```
-
-The server will run on `http://localhost:3500` (or the port specified in `.env`).
-
-## Environment Variables
-
-Create a `.env` file based on `.env.example`:
-
-- `PORT`: Server port (default: 3500)
-- `DATABASE_URI`: MongoDB connection string
-- `NODE_ENV`: Environment (development/production)
-- `ACCESS_TOKEN_SECRET`: Secret for JWT access tokens (min 32 characters)
-- `REFRESH_TOKEN_SECRET`: Secret for JWT refresh tokens (min 32 characters)
-- `ALLOWED_ORIGINS`: Comma-separated list of allowed CORS origins
-
-### Protected Routes (Require JWT)
-
-- `GET /api/users` - Get all users (Admin only)
-- `GET /api/employees` - Get all employees
-- `POST /api/employees` - Create employee (Admin/Editor)
-- `PUT /api/employees/:id` - Update employee (Admin/Editor)
-- `DELETE /api/employees/:id` - Delete employee (Admin only)
-
-## Usage Examples
-
-### Register a User
-
-```bash
-curl -X POST http://localhost:3500/register \
-  -H "Content-Type: application/json" \
-  -d '{"user": "newuser", "password": "SecurePass@123"}'
-```
-
-### Login
-
-```bash
-curl -X POST http://localhost:3500/auth \
-  -H "Content-Type: application/json" \
-  -d '{"user": "newuser", "password": "SecurePass@123"}'
-```
-
-### Access Protected Route
-
-```bash
-curl -H "Authorization: Bearer <access_token>" \
-  http://localhost:3500/api/employees
-```
-
-## Security Features
-
-- Password hashing with bcrypt
-- JWT tokens with short expiration
-- Refresh token rotation
-- HttpOnly cookies for refresh tokens
-- CORS protection
-- Role-based access control
-- Input validation (recommended to add express-validator)
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Run tests (if available)
-5. Submit a pull request
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+- `firstname`
+- `lastname`
+- `email`
+- `phone`
+- `department`
+- `job`
 
 ## API Endpoints
 
-| Method   | Endpoint             | Description                                 |
-| -------- | -------------------- | ------------------------------------------- |
-| `POST`   | `/register`          | Register a new user                         |
-| `POST`   | `/auth`              | Login and receive an access token           |
-| `POST`   | `/refresh`           | Get a new access token using refresh cookie |
-| `POST`   | `/logout`            | Logout and invalidate refresh token         |
-| `GET`    | `/api/users`         | Get all users (Admin only)                  |
-| `GET`    | `/api/users/:id`     | Get one user (Admin only)                   |
-| `DELETE` | `/api/users/:id`     | Delete one user (Admin only)                |
-| `GET`    | `/api/employees`     | Get all employees (Authenticated users)     |
-| `POST`   | `/api/employees`     | Create employee (Admin or Editor)           |
-| `GET`    | `/api/employees/:id` | Get one employee (Authenticated users)      |
-| `PUT`    | `/api/employees/:id` | Update employee (Admin or Editor)           |
-| `DELETE` | `/api/employees/:id` | Delete employee (Admin only)                |
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| `POST` | `/register` | Register a new user |
+| `POST` | `/auth` | Login and receive an access token |
+| `POST` | `/refresh` | Get a new access token using refresh cookie |
+| `POST` | `/logout` | Logout and invalidate refresh token |
+| `GET` | `/api/users` | Get all users (Admin only) |
+| `GET` | `/api/users/:id` | Get one user (Admin only) |
+| `DELETE` | `/api/users/:id` | Delete one user (Admin only) |
+| `GET` | `/api/employees` | Get all employees (Authenticated users) |
+| `POST` | `/api/employees` | Create employee (Admin or Editor) |
+| `GET` | `/api/employees/:id` | Get one employee (Authenticated users) |
+| `PUT` | `/api/employees/:id` | Update employee (Admin or Editor) |
+| `DELETE` | `/api/employees/:id` | Delete employee (Admin only) |
 
 ## Auth Flow
 
-1. A user registers with username and password.
+1. A user registers with username, fullname, email, and password.
 2. The password is hashed with `bcrypt` before being stored.
 3. On login, the API returns a short-lived JWT access token.
 4. A refresh token is stored in an `httpOnly` cookie.
@@ -221,38 +112,43 @@ REFRESH_TOKEN_SECRET=your_refresh_token_secret
 npm run dev
 ```
 
-## Example Request
+When the database connects, default employee data will be added automatically if the employees collection is empty.
+
+## Example Requests
+
+Register:
+
+```bash
+curl -X POST http://localhost:3500/register \
+  -H "Content-Type: application/json" \
+  -d "{\"user\":\"alice\",\"fullname\":\"Alice Johnson\",\"email\":\"alice@example.com\",\"password\":\"SecurePass@123\"}"
+```
+
+Login:
 
 ```bash
 curl -X POST http://localhost:3500/auth \
   -H "Content-Type: application/json" \
-  -d "{\"user\":\"alice\",\"password\":\"secret123\"}"
+  -d "{\"user\":\"alice\",\"password\":\"SecurePass@123\"}"
 ```
 
-## Folder Structure
+Create employee:
 
-```text
-node-authentication-api
-│
-├ config/
-├ controllers/
-├ middleware/
-├ models/
-├ routes/
-├ public/
-├ views/
-├ server.js
-├ package.json
-└ README.md
+```bash
+curl -X POST http://localhost:3500/api/employees \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <access_token>" \
+  -d "{\"firstname\":\"Ravi\",\"lastname\":\"Kumar\",\"email\":\"ravi.kumar@company.com\",\"phone\":\"9876543200\",\"department\":\"Support\",\"job\":\"Support Engineer\"}"
 ```
 
 ## Notes
 
 - The login and registration payload uses `user` as the username field.
+- Registration requires `fullname` and `email`.
 - Usernames are normalized to lowercase before storage.
+- User and employee emails are stored in lowercase.
+- Employee phone numbers must be 10 digits.
 - Passwords must be at least 8 characters and include uppercase, lowercase, number, and special character.
-- Passwords are hashed before saving to the database.
-- Access tokens are used for protected routes.
 - Refresh tokens are stored in the database and rotated on refresh.
 
 ## Future Improvements
