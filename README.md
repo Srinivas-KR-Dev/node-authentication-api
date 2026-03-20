@@ -16,6 +16,7 @@ It includes:
 - role-based authorization for protected routes
 - MongoDB persistence with Mongoose
 - default employee seed data for quick testing
+- a simple React frontend running on a different port to showcase the backend flow
 
 ## Tech Stack
 
@@ -39,6 +40,7 @@ It includes:
 - Protect API routes with JWT middleware
 - Restrict routes by role
 - Manage users and employees through protected endpoints
+- Demo frontend with registration, login, auth context, and employee list
 
 ## User Model
 
@@ -113,6 +115,36 @@ npm run dev
 ```
 
 When the database connects, default employee data will be added automatically if the employees collection is empty.
+
+## Frontend Demo Setup
+
+The frontend app now lives outside this backend folder as a sibling project:
+
+`C:\Users\07krs\Documents\Full Stack\Nodejs\client`
+
+### 1. Install frontend dependencies
+
+```bash
+cd ..
+cd client
+npm install
+```
+
+### 2. Start the frontend
+
+```bash
+npm run dev
+```
+
+The frontend runs on `http://localhost:5173` and connects to the backend on `http://localhost:3500`.
+
+### Demo Flow
+
+1. Open the frontend in the browser.
+2. Register a new user.
+3. After successful registration, review the user details page.
+4. Go to login and authenticate.
+5. After login, view the protected employee list page.
 
 ## Example Requests
 
