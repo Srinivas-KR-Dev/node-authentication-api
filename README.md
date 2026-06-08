@@ -185,7 +185,7 @@ curl -X POST http://localhost:3500/api/employees \
 
 ## Future Improvements
 
-
+- Add automated tests
 - Add rate limiting
 - Add account verification and password reset flows
 - Improve production cookie security configuration
